@@ -40,7 +40,7 @@ class Day:
 
     @cached_property
     def input_path(self):
-        return Path(f'inputs/{self.day}.txt')
+        return Path(f'inputs/day_{self.day}.txt')
 
     @cached_property
     def input_text(self):

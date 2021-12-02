@@ -23,15 +23,18 @@ class Day1Part1(Day):
     def parse_input(self):
         return tuple(map(int, self.input_text_lines))
 
+    def sliding_window(self, window_size, collection):
+        for i in range(0, len(collection) - window_size + 1):
+            yield collection[i:i + window_size]
+
     def solve(self):
         data = self.parse_input()
         prev = None
         total = 0
-        
-        for start in range(len(data) - 2):
-            slice_ = data[start:start + 3]
 
-            sum_ = sum(slice_)
+        for window in self.sliding_window(3, data):
+            sum_ = sum(window)
+
             if prev is None:
                 prev = sum_
                 continue

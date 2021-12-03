@@ -1,7 +1,4 @@
-from collections import Counter
-from typing import Literal
-
-from icecream import ic
+from collections import namedtuple
 
 from day import Day
 
@@ -13,6 +10,10 @@ diagnostic report to generate two new binary numbers (called the gamma rate and 
 The power consumption can then be found by multiplying the gamma rate by the epsilon rate.
 
 """
+
+MOST_COMMON = object()
+LEAST_COMMON = object()
+FindBitResult = namedtuple('FindBitResult', 'bit count0 count1 data')
 
 
 class Day3Part1(Day):
@@ -34,38 +35,32 @@ class Day3Part1(Day):
                 '01010')
 
     def parse_input(self):
-        return self.input_sample_lines
+        return self.input_text_lines
 
-    def most_and_least_common_at(self, index, data):
-        counts = Counter((binary[index] for binary in data))
-        return counts.most_common()
+    def get_column_values_at(self, index, data):
+        return [row[index] for row in data]
 
-    def _fix_pair(self, preference_index, pair):
-        if pair[0][1] == pair[1][1]:
-            return '1' if preference_index == 0 else '0'
-        return pair[preference_index][0]
+    def find_bit(self, index, data, mode):
+        values = self.get_column_values_at(index, data)
+        count_0 = values.count('0')
+        count_1 = values.count('1')
 
-    def filter_by_bit_position(self, data, mode: Literal['most', 'least']):
-        compare = [
-            # self.most_and_least_common_at(i, data)[0 if mode == 'most' else 1][0]
-            self._fix_pair(0 if mode == 'most' else 1, self.most_and_least_common_at(i, data))
-            for i in range(len(data[0]))
-        ]
+        if count_0 == count_1:
+            return '1' if mode is MOST_COMMON else '0'
+        elif mode is MOST_COMMON:
+            return '0' if count_0 > count_1 else '1'
+        else:
+            return '0' if count_0 < count_1 else '1'
 
-        for i, bit in enumerate(compare):
-            data = [v for v in data if v[i] == bit]
-            print(data, mode, bit)
-            if len(data) == 1:
-                return data[0]
+    def find_number(self, mode, data):
+        valid = data.copy()
+        for i in range(len(valid[0])):
+            bit = self.find_bit(i, valid, mode)
+            valid = [row for row in valid if row[i] == bit]
+            if len(valid) == 1:
+                return int(valid[0], 2)
 
     def solve(self):
         data = self.parse_input()
-        bits = [self.most_and_least_common_at(i, data) for i in range(len(data[0]))]
 
-        # epsilon_rate = int(''.join(pair[0][0] for pair in bits), 2)
-        # gamma_rate = int(''.join(pair[1][0] for pair in bits), 2)
-
-        oxygen_rate = ic(int(ic(self.filter_by_bit_position(data, mode='most')), 2))
-        c02_scrubber_rate = ic(int(self.filter_by_bit_position(data, mode='least'), 2))
-
-        # print(f'day 3 part 2 answer: {epsilon_rate * gamma_rate}')
+        print('day 3 part 2 answer is:', self.find_number(MOST_COMMON, data) * self.find_number(LEAST_COMMON, data))

@@ -130,3 +130,6 @@ dmypy.json
 
 # pycharm configuration files
 .idea/
+
+# advent of code secrets files
+/secrets/

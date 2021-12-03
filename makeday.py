@@ -1,7 +1,5 @@
 from pathlib import Path
-
-INPUT_FILES_PATH = Path('./inputs/')
-DAY_FILES_PATH = Path('./days/')
+from utils import ask_int, create_day_input_file_path, create_day_folder_path
 
 DAY_PART_PY_CODE = '''
 from day import Day
@@ -23,22 +21,6 @@ class Day{day}Part{part}(Day):
     def solve(self):
         data = self.parse_input()
 '''
-
-
-def create_day_folder_path(day_number):
-    return Path(DAY_FILES_PATH / f'day_{day_number}')
-
-
-def create_day_input_path(day_number):
-    return Path(INPUT_FILES_PATH / f'day_{day_number}.txt')
-
-
-def ask_int(prompt):
-    while True:
-        day = input(prompt)
-        if not day.isnumeric():
-            continue
-        return int(day)
 
 
 class CreateMode:
@@ -71,7 +53,7 @@ def create_if_not_exists(path: Path, type: str):
 
 
 day = ask_int('enter day number >>> ')
-day_input_file_path = create_day_input_path(day)
+day_input_file_path = create_day_input_file_path(day)
 day_folder_path = create_day_folder_path(day)
 
 create_if_not_exists(day_input_file_path, CreateMode.FILE)

@@ -22,8 +22,8 @@ def get(day):
 
 
 day = ask_int('enter day to fetch input for: ')
-# data = get(day)
-# data.raise_for_status()
+data = get(day)
+data.raise_for_status()
 
-# create_day_input_file_path(day).write_text(data.text)
+create_day_input_file_path(day).write_text(data.text)
 print(f'\n\n***\ndone getting input for day: {day}\n\nit was dumped to file: {create_day_input_file_path(day)!s}\n***')

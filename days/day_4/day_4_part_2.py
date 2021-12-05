@@ -3,8 +3,26 @@ from dataclasses import dataclass
 
 import numpy as np
 
-import utils
 from day import Day
+from utils import ITER_END_MARKER
+
+
+def iter_with_terminator(iterable, end_marker=ITER_END_MARKER, include_end_marker=True, transform=None, predicate=None):
+    if predicate is None:
+        predicate = lambda x: True
+
+    if transform is None:
+        transform = lambda x: x
+
+    # iterators return themselves if you call iter() on it, this is to ensure it's a iterator
+    it = iter(iterable)
+
+    while (value := next(it, end_marker)) != end_marker:
+        if predicate(value):
+            yield transform(value)
+
+    if include_end_marker:
+        yield end_marker
 
 
 class LineType:
@@ -64,7 +82,7 @@ class Day4Part1(Day):
                 return x, LineType.BOARD_LINE
             return LineType.SEPARATOR
 
-        for pair in utils.iter_with_terminator(self.input_text_lines, transform=_trans, end_marker=LineType.SEPARATOR):
+        for pair in iter_with_terminator(self.input_text_lines, transform=_trans, end_marker=LineType.SEPARATOR):
             match pair:
                 case (x, LineType.HEADER):
                     drawing_numbers.extend(map(int, x.split(',')))

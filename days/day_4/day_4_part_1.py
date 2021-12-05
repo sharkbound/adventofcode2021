@@ -1,12 +1,10 @@
-from collections import deque, namedtuple
-from dataclasses import dataclass, field
+from collections import deque
+from dataclasses import dataclass
 
-from icecream import ic
-
-from day import Day
-import re
 import numpy as np
+
 import utils
+from day import Day
 
 
 class LineType:

@@ -95,5 +95,4 @@ class Day4Part1(Day):
             if boards:
                 last_board = boards[-1]
 
-        winner_board = last_board
-        print(sum(set(winner_board.flattened) - drawn) * last_draw)
+        print(sum(set(last_board.flattened) - drawn) * last_draw)

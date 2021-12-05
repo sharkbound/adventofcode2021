@@ -97,11 +97,3 @@ class Day4Part1(Day):
 
         winner_board = last_board
         print(sum(set(winner_board.flattened) - drawn) * last_draw)
-
-
-"""
-the score of the winning board can now be calculated. Start by finding the sum of all unmarked numbers on that board; 
-in this case, the sum is 188. 
-then, multiply that sum by the number that was just called when the board won; 24
-to get the final score, 188 * 24 = 4512.
-"""

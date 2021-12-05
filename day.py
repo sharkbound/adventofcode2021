@@ -76,6 +76,9 @@ class Day:
         diff = perf_counter_ns() - start
         print(f'\nday {self.day} part {self.part} completed in \n\t{diff} NS\n\t{diff * 0.000001} MS\n\t{diff * 0.000000001} SECONDS\n')
 
+    def print_answer(self, value):
+        print(f'day {self.day} part {self.part} answer is >>> {value}')
+
 
 def run_day(day, part, *, timed=False):
     days_folder = Path('./days/')

@@ -1,3 +1,5 @@
+import typing
+
 from icecream import ic
 
 
@@ -28,3 +30,16 @@ def iter_with_terminator(iterable, end_marker=ITER_END_MARKER, include_end_marke
 
     if include_end_marker:
         yield end_marker
+
+
+def iter_flatten(iterable, depth=None):
+    if depth is not None and depth < 0:
+        yield iterable
+        return
+
+    # strings and bytes are themselves iterable, so we dont want to include them
+    if isinstance(iterable, typing.Iterable) and not isinstance(iterable, (str, bytes)):
+        for x in iterable:
+            yield from iter_flatten(x, depth=((depth - 1) if depth is not None else None))
+    else:
+        yield iterable

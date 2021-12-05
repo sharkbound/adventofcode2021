@@ -26,5 +26,5 @@ def iter_with_terminator(iterable, end_marker=ITER_END_MARKER, include_end_marke
         if predicate(transformed := transform(value)):
             yield transformed
 
-        if include_end_marker:
-            yield end_marker
+    if include_end_marker:
+        yield end_marker

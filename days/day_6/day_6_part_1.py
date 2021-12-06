@@ -1,12 +1,6 @@
 from collections import deque
-from itertools import count
-
-from icecream import ic
 
 from day import Day
-import re
-import numpy as np
-import utils
 
 
 class Day6Part1(Day):
@@ -25,17 +19,14 @@ class Day6Part1(Day):
             counts[phase] += 1
         return counts
 
-    def advance_phases(self, counts: deque):
-        phase_0_count = counts[0]
-        counts[0] = 0
-        counts.rotate(-1)
-        counts[8] = phase_0_count
-        counts[6] += phase_0_count
-
     def solve(self):
         counts = self.preload_counts(self.parse_input())
         for _ in range(80):
-            self.advance_phases(counts)
+            phase_0_count = counts[0]
+            counts[0] = 0
+            counts.rotate(-1)
+            counts[8] = phase_0_count
+            counts[6] += phase_0_count
         self.print_answer(sum(counts))
 
 

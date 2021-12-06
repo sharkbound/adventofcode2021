@@ -10,7 +10,7 @@ import utils
 Line = namedtuple('Line', 'x1 y1 x2 y2')
 
 
-class Day5Part1(Day):
+class Day5Part2(Day):
     day = 5
     part = 2
 

@@ -16,7 +16,7 @@ LEAST_COMMON = object()
 FindBitResult = namedtuple('FindBitResult', 'bit count0 count1 data')
 
 
-class Day3Part1(Day):
+class Day3Part2(Day):
     day = 3
     part = 2
 

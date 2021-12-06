@@ -45,7 +45,7 @@ class Board:
         return [index for number, index in self.number_locations.items() if number in active_numbers]
 
 
-class Day4Part1(Day):
+class Day4Part2(Day):
     day = 4
     part = 2
 

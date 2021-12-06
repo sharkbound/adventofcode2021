@@ -4,7 +4,7 @@ import numpy as np
 import utils
 
 
-class Day1Part1(Day):
+class Day1Part2(Day):
     day = 1
     part = 2
 

@@ -5,7 +5,7 @@ from day import Day
 Instruction = namedtuple('Instruction', 'command units')
 
 
-class Day2Part1(Day):
+class Day2Part2(Day):
     day = 2
     part = 2
 

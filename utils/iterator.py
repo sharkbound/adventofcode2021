@@ -46,11 +46,11 @@ def iter_flatten(iterable, depth=None):
         yield iterable
 
 
-def get_all_ints(value):
+def get_all_ints(value, transform=iter):
     match value:
         case str() as s:
-            return map(int, re.findall(r'\d+', s))
+            return transform(map(int, re.findall(r'\d+', s)))
         case iterable if isinstance(iterable, typing.Iterable):
-            return map(int, iterable)
+            return transform(map(int, iterable))
         case _:
             raise ValueError(f'cannot find ints from type: {type(value)}. value must be iterable!')

@@ -1,3 +1,5 @@
+from functools import partial
+
 from .dotdict import DotDict
 from .input import ask_int
 from .iterator import ITER_END_MARKER, iter_with_terminator, IterEndMarker, iter_flatten, get_all_ints

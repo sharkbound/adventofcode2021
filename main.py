@@ -1,4 +1,6 @@
 from day import run_day
 
-run_day(6, 1, timed=True)
-run_day(6, 2, timed=True)
+TIMED = False
+
+run_day(7, 1, timed=TIMED)
+run_day(7, 2, timed=TIMED)

@@ -1,3 +1,4 @@
+import re
 import typing
 
 from icecream import ic
@@ -43,3 +44,13 @@ def iter_flatten(iterable, depth=None):
             yield from iter_flatten(x, depth=((depth - 1) if depth is not None else None))
     else:
         yield iterable
+
+
+def get_all_ints(value):
+    match value:
+        case str() as s:
+            return map(int, re.findall(r'\d+', s))
+        case iterable if isinstance(iterable, typing.Iterable):
+            return map(int, iterable)
+        case _:
+            raise ValueError(f'cannot find ints from type: {type(value)}. value must be iterable!')

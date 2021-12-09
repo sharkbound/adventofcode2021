@@ -22,7 +22,7 @@ def iter_with_terminator(iterable, end_marker=ITER_END_MARKER, include_end_marke
     if transform is None:
         transform = lambda x: x
 
-    # iterators return themselves if you call iter() on it, this is to ensure it's a iterator
+    # iterators return themselves if you call iter() on it, this is to ensure it's an iterator
     it = iter(iterable)
 
     while (value := next(it, end_marker)) != end_marker:

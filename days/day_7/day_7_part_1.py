@@ -1,3 +1,5 @@
+import statistics
+
 import numpy as np
 import plotly.express as px
 from icecream import ic
@@ -16,16 +18,7 @@ class Day7Part1(Day):
     def parse_input(self):
         return utils.get_all_ints(self.input_text, transform=utils.partial(np.fromiter, dtype=np.int))
 
-    # i wanted to use these two functions to reduce complexity, but my approach did not work whatsoever...
-
-    # def array_dist(self, numbers):
-    #     if len(numbers) == 1:
-    #         return np.array(numbers)
-    #     return np.fromiter((abs(a - b) for a, b in zip(numbers[:-1], numbers[1:])), dtype=np.int, count=len(numbers) - 1)
-    #
-    # def split_mid(self, numbers):
-    #     return numbers[:len(numbers) // 2], numbers[len(numbers) // 2:]
-
+    # old graphing code prior to optimization
     # def graph(self, data):
     #     import plotly.subplots
     #     fig = plotly.subplots.make_subplots(rows=2, cols=1)
@@ -36,6 +29,8 @@ class Day7Part1(Day):
 
     def solve(self):
         data = self.parse_input()
-        # i really don't like this brute-force approach, but i will revisit it later...
-        best_fuel_total = min(sum(abs(value - submarine) for submarine in data) for value in data)
+        # old solution via brute-force with a range
+        # best_fuel_total = min(sum(abs(value - submarine) for submarine in data) for value in data)
+        median = statistics.median(data)
+        best_fuel_total = int(sum(abs(median - submarine) for submarine in data))
         self.print_answer(best_fuel_total)

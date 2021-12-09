@@ -1,3 +1,5 @@
+import statistics
+
 import numpy as np
 import plotly.express as px
 from icecream import ic
@@ -29,11 +31,21 @@ class Day7Part2(Day):
 
     def solve(self):
         data = self.parse_input()
+        # old brute-force solution
         # i really don't like this brute-force approach, but i will revisit it later...
-        best_fuel_total = min(
-            sum(self.calculate_movement_cost(pos, submarine) for submarine in data)
-            for pos in range(min(data), max(data))
-        )
+        # best_fuel_total = min(
+        #     sum(self.calculate_movement_cost(pos, submarine) for submarine in data)
+        #     for pos in range(min(data), max(data))
+        # )
+        # best_fuel_total = min(
+        #     sum(self.calculate_movement_cost(pos, submarine) for submarine in data)
+        #     for pos in range(min(data), max(data))
+        # )
+        # optimized solution below:
+        # found from a solution on reddit
+        # link: https://www.reddit.com/r/adventofcode/comments/rar7ty/comment/hnsdcw3/?utm_source=share&utm_medium=web2x&context=3
+        mean = statistics.mean(data)
+        best_fuel_total = int(sum(self.calculate_movement_cost(mean, submarine) for submarine in data))
         self.print_answer(best_fuel_total)
         # (96864235, 462)
         # timing:

@@ -39,4 +39,3 @@ class Day7Part1(Day):
         # i really don't like this brute-force approach, but i will revisit it later...
         best_fuel_total = min(sum(abs(value - submarine) for submarine in data) for value in data)
         self.print_answer(best_fuel_total)
-        # should be 336120 according to another solution, i will revisit this later, part 2 is 96864235 seemingly

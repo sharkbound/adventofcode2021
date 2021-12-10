@@ -39,10 +39,30 @@ class Day8Part2(Day):
         data = self.parse_input()
         for item in data:
             set_to_digit = {signal: match for signal in item.signals if (match := LENGTH_TO_DIGITS.get(len(signal)))}
-            print(set_to_digit, '\n\n')
+            known_connections = {}
+            seven =
+
 
 
 """
+acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
+                                                        
+         7=dab                                   
+         1=ab                                    
+                                                 
+                                                 
+             ddd        aaa                             
+            |   a      b   c                            
+            |   a      b   c                            
+              -         ddd                        
+            |   b      e   f                            
+            |   b      e   f                            
+             ---        ggg                             
+                                                        
+                                                        
+                                                        
+                                                        
+
 *** Each entry consists of ten unique signal patterns, a | delimiter, and finally the four digit output value. ***
 
 * signals which control the segments have been mixed up on each display 

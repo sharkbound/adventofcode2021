@@ -1,4 +1,6 @@
-from functools import partial
+from functools import partial, reduce, lru_cache
+from itertools import chain, islice, groupby, dropwhile, takewhile
+import more_itertools as moreiter
 
 from .dotdict import DotDict
 from .input import ask_int

@@ -20,7 +20,6 @@ class DotDict(dict):
 
     def _transform_if_mutable_sequence(self, value):
         if isinstance(value, typing.MutableSequence):
-            print(f'_transform_if_mutable_sequence -> {value}')
             return [
                 self._transform_if_mutable_mapping(subvalue)
                 or self._transform_if_mutable_sequence(subvalue)

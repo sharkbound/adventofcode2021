@@ -1,7 +1,6 @@
 import re
 import typing
 
-
 from icecream import ic
 
 
@@ -55,3 +54,16 @@ def get_all_ints(value, transform=iter):
             return transform(map(int, iterable))
         case _:
             raise ValueError(f'cannot find ints from type: {type(value)}. value must be iterable!')
+
+
+def build_dict(*items, cls=dict):
+    """
+    builds a from pairs passed, each 2 values are interpreted as (key, value)
+    """
+    # check that it's an even length
+    assert len(items) & 1 != 1
+    return cls(zip(items[::2], items[1::2]))
+
+
+def first_where(iterable, predicate=lambda x: True, default=None):
+    return next(filter(predicate, iterable), default)

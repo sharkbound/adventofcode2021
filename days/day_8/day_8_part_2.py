@@ -72,6 +72,7 @@ class Day8Part2(Day):
                         known_connection_corrections[signal[index]] = correct_connection
 
             _ = tuple(
+                # key error happens here from a duplicate connection being set to known_connection_corrections
                 self.SET_TO_NUMBER[corrected]
                 for digit in item.digit_strs
                 if (corrected := ic(frozenset(map(known_connection_corrections.__getitem__, ic(digit)))))

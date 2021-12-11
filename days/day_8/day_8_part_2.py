@@ -1,12 +1,7 @@
-from collections import namedtuple, Counter, defaultdict
-from dataclasses import make_dataclass
-
 from icecream import ic
 
-from day import Day
-import re
-import numpy as np
 import utils
+from day import Day
 
 
 class Day8Part2(Day):

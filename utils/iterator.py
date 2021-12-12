@@ -1,7 +1,6 @@
 import re
 import typing
-
-from icecream import ic
+from typing import Callable, Any
 
 
 class IterEndMarker:
@@ -61,7 +60,7 @@ def build_dict(*items, cls=dict):
     builds a dict from pairs passed, each 2 values are interpreted as (key, value)
     """
     # check that it's an even length
-    assert len(items) & 1 != 1
+    assert len(items) & 1 != 1, 'length of items must be even in build_dict(...)'
     return cls(zip(items[::2], items[1::2]))
 
 
@@ -71,3 +70,18 @@ def first_where(iterable, predicate=lambda x: True, default=None):
 
 def reverse_mapping(mapping):
     return type(mapping)(zip(mapping.values(), mapping))
+
+
+def format_map(items, format_: str | Callable, transform: Callable[[Any], Any] = None, args=False, kwargs=False):
+    if not callable(format_):
+        format_ = format_.format_map if kwargs else format_.format
+
+    if transform is None:
+        transform = lambda x: x
+
+    if args:
+        formatter = lambda x: format_(*x)
+    else:
+        formatter = format_
+
+    return transform(map(formatter, items))

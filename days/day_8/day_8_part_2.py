@@ -75,11 +75,14 @@ class Day8Part2(Day):
                     print(f'set {signal[index]} to {correct_connection}')
                     # if signal[index] not in known_connection_corrections:
                     known_connection_corrections[signal[index]] = correct_connection
-            ic(known_connection_corrections)
+            print(utils.format_map(known_connection_corrections.items(), '{} -> {}', transform=' | '.join, args=True))
+            ic(known_connection_corrections, utils.reverse_mapping(known_connection_corrections))
             ic(known_connection_corrections['d'] == 'a', known_connection_corrections['e'] == 'b', known_connection_corrections['a'] == 'c')
 
 
 """
+seems my issues in B getting bounds differently between 8 and 4 in the example
+
 acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf
 
 correct mapping for the above line                                           

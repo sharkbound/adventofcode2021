@@ -8,7 +8,8 @@ class Day8Part2(Day):
     day = 8
     part = 2
 
-    UNIQUE_LENGTH_TO_DIGITS = {2: ['1'], 3: ['7'], 4: ['4'], 5: ['2', '3', '5'], 6: ['0', '6', '9'], 7: ['8']}
+    # UNIQUE_LENGTH_TO_DIGITS = {2: ['1'], 3: ['7'], 4: ['4'], 5: ['2', '3', '5'], 6: ['0', '6', '9'], 7: ['8']}
+    UNIQUE_LENGTH_TO_DIGITS = {2: '1', 3: '7', 4: '4', 7: '8'}
     UNIQUE_LENGTH_CONNECTIONS = {
         '7': ((0, 'a'), (1, 'c'), (2, 'f')),
         '8': ((0, 'a'), (1, 'b'), (2, 'c'), (3, 'd'), (4, 'e'), (5, 'f'), (6, 'g')),
@@ -58,13 +59,15 @@ class Day8Part2(Day):
         for item in data:
 
             # find all the corrected connections from the unique length outputs
+            #     UNIQUE_LENGTH_TO_DIGITS = {2: ['1'], 3: ['7'], 4: ['4'], 7: ['8']}
             known_connection_corrections = {}
             for signal in item.signal_strs:
-                if (match := self.UNIQUE_LENGTH_TO_DIGITS.get(len(signal))) and len(match) == 1:
-                    for index, correct_connection in self.UNIQUE_LENGTH_CONNECTIONS[match[0]]:
+                if (match := self.UNIQUE_LENGTH_TO_DIGITS.get(len(signal))):
+                    for index, correct_connection in self.UNIQUE_LENGTH_CONNECTIONS[match]:
                         # copy the corrected connection to the dictionary
                         print(f'set {signal[index]} to {correct_connection}')
-                        known_connection_corrections[signal[index]] = correct_connection
+                        if signal[index] not in known_connection_corrections:
+                            known_connection_corrections[signal[index]] = correct_connection
 
             _ = tuple(
                 # key error happens here from a duplicate connection being set to known_connection_corrections

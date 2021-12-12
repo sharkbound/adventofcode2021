@@ -58,7 +58,7 @@ def get_all_ints(value, transform=iter):
 
 def build_dict(*items, cls=dict):
     """
-    builds a from pairs passed, each 2 values are interpreted as (key, value)
+    builds a dict from pairs passed, each 2 values are interpreted as (key, value)
     """
     # check that it's an even length
     assert len(items) & 1 != 1
@@ -67,3 +67,7 @@ def build_dict(*items, cls=dict):
 
 def first_where(iterable, predicate=lambda x: True, default=None):
     return next(filter(predicate, iterable), default)
+
+
+def reverse_mapping(mapping):
+    return type(mapping)(zip(mapping.values(), mapping))

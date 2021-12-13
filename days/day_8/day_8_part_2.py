@@ -56,7 +56,9 @@ class Day8Part2(Day):
         data = self.parse_input()
         for item in data:
             known_connection_corrections = {}
-            for signal in item.signal_strs:
+            found = set()
+
+            for signal in sorted(item.signal_strs, key=len):
                 match len(signal):
                     case 2:
                         match = '1'
@@ -69,15 +71,7 @@ class Day8Part2(Day):
                     case _:
                         continue
 
-                ic(match, signal, len(known_connection_corrections), self.UNIQUE_LENGTH_CONNECTIONS[match], known_connection_corrections.items())
-
-                for index, correct_connection in self.UNIQUE_LENGTH_CONNECTIONS[match]:
-                    print(f'set {signal[index]} to {correct_connection}')
-                    # if signal[index] not in known_connection_corrections:
-                    known_connection_corrections[signal[index]] = correct_connection
-            print(utils.format_map(known_connection_corrections.items(), '{} -> {}', transform=' | '.join, args=True))
-            ic(known_connection_corrections, utils.reverse_mapping(known_connection_corrections))
-            ic(known_connection_corrections['d'] == 'a', known_connection_corrections['e'] == 'b', known_connection_corrections['a'] == 'c')
+            # rewriting to solved by lower length to higher length to attempt to solve collisions
 
 
 """

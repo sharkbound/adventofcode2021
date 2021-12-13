@@ -4,8 +4,20 @@ import more_itertools as more_itertools
 
 from .dotdict import DotDict
 from .input import ask_int
-from .iterator import ITER_END_MARKER, iter_with_terminator, IterEndMarker, iter_flatten, get_all_ints, build_dict, first_where, reverse_mapping, \
-    format_map
+
+from .iterator import (
+    ITER_END_MARKER,
+    iter_with_terminator,
+    IterEndMarker,
+    iter_flatten,
+    get_all_ints,
+    build_dict,
+    first_where,
+    reverse_mapping,
+    format_map,
+    last_where,
+)
+
 from .file import (
     INPUT_FILES_PATH,
     DAY_FILES_PATH,

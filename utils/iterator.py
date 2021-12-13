@@ -68,6 +68,13 @@ def first_where(iterable, predicate=lambda x: True, default=None):
     return next(filter(predicate, iterable), default)
 
 
+def last_where(iterable, predicate=lambda x: True, default=None):
+    val = default
+    for item in filter(predicate, iterable):
+        val = item
+    return val
+
+
 def reverse_mapping(mapping):
     return type(mapping)(zip(mapping.values(), mapping))
 

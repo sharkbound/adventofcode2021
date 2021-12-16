@@ -108,11 +108,16 @@ class Day8Part2(Day):
             # atm this sorta works, it gets one right >>> ic| one_length_counters: [('e', Counter({'g': 1})), ('g', Counter({'b': 1}))]
             # right one being e -> g
             #
-            # thinking i need to rework it further to keep track of known ones based on len() sorting, eg: 1 is 2 length, so "ab" is should always be "cf"
+            # thinking i need to rework it further to keep track of known ones based on len() sorting, eg: 1 is 2 length, so "ab" should always be "cf"
             # so i can remove "ab" from the mappings to check in the signals, and maybe mark "cf" as found, need to try it to see if it actually works or not...
 
 
 """
+8 for first example line: 
+a c e d g f b   scrambled mapping
+| | | | | | |
+c g b a e d f   actual mapping          
+
 seems my issues in B getting bounds differently between 8 and 4 in the example
 
 acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf

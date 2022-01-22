@@ -10,9 +10,11 @@ __all__ = [
     'get_all_ints',
     'build_dict',
     'first_where',
+    'first_where_not',
     'reverse_mapping',
     'format_map',
     'last_where',
+    'last_where_not',
 ]
 
 
@@ -81,9 +83,20 @@ def first_where(iterable, predicate=lambda x: True, default=None):
     return next(filter(predicate, iterable), default)
 
 
+def first_where_not(iterable, predicate=lambda x: True, default=None):
+    return next(filter(lambda x: not predicate(x), iterable), default)
+
+
 def last_where(iterable, predicate=lambda x: True, default=None):
     val = default
     for item in filter(predicate, iterable):
+        val = item
+    return val
+
+
+def last_where_not(iterable, predicate=lambda x: True, default=None):
+    val = default
+    for item in filter(lambda x: not predicate(x), iterable):
         val = item
     return val
 

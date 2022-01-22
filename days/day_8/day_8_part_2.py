@@ -34,64 +34,60 @@ class Day8Part2(Day):
                 signals=tuple(map(frozenset, (split := line.split('|'))[0].split())),
                 digits=tuple(map(frozenset, split[1].split())),
             )
-            for line in self.input_sample_lines
+            for line in self.input_text_lines
         ]
 
     def solve(self):
         data = self.parse_input()
         total = 0
         for entry in data:
-            # done: 1, 2, 3, 4, 5, 6, 7, 8, 9
             known = {
-                (one_pattern := utils.first_where(entry.signals, utils.pred.pred_eq_len(2))): '1',
-                (seven_pattern := utils.first_where(entry.signals, utils.pred.pred_eq_len(3))): '7',
-                (four_pattern := utils.first_where(entry.signals, utils.pred.pred_eq_len(4))): '4',
-                utils.first_where(entry.signals, utils.pred.pred_eq_len(7)): '8',
+                utils.first_where(entry.signals, utils.pred.eq_len(2)): '1',
+                (seven_pattern := utils.first_where(entry.signals, utils.pred.eq_len(3))): '7',
+                (four_pattern := utils.first_where(entry.signals, utils.pred.eq_len(4))): '4',
+                utils.first_where(entry.signals, utils.pred.eq_len(7)): '8', utils.first_where(
+                    entry.signals,
+                    utils.pred.combine(
+                        utils.pred.eq_len(6),
+                        utils.pred.contains_eq_count(*seven_pattern, count=3),
+                        utils.pred.contains_eq_count(*four_pattern, count=4),
+
+                    )
+                ): '9',
+                utils.first_where(
+                    entry.signals,
+                    utils.pred.combine(
+                        utils.pred.eq_len(6),
+                        utils.pred.contains_eq_count(*seven_pattern, count=2),
+                        utils.pred.contains_eq_count(*four_pattern, count=3),
+                    )
+                ): '6',
+                utils.first_where(
+                    entry.signals,
+                    utils.pred.combine(
+                        utils.pred.eq_len(5),
+                        utils.pred.contains_eq_count(*four_pattern, count=2),
+                    )
+                ): '2',
+                utils.first_where(
+                    entry.signals,
+                    utils.pred.combine(
+                        utils.pred.eq_len(5),
+                        utils.pred.contains_eq_count(*four_pattern, count=3),
+                        utils.pred.contains_eq_count(*seven_pattern, count=3),
+                    )
+                ): '3',
+                utils.first_where(
+                    entry.signals,
+                    utils.pred.combine(
+                        utils.pred.eq_len(5),
+                        utils.pred.contains_eq_count(*four_pattern, count=3),
+                        utils.pred.contains_eq_count(*seven_pattern, count=2),
+                    )
+                ): '5',
             }
+            known[utils.first_where_not(entry.signals, known.__contains__)] = '0'
 
-            known[utils.first_where(
-                entry.signals,
-                utils.pred.combine_preds(
-                    utils.pred.pred_eq_len(6),
-                    utils.pred.pred_contains_eq_count(*seven_pattern, count=3),
-                )
-            )] = '9'
-
-            known[utils.first_where(
-                entry.signals,
-                utils.pred.combine_preds(
-                    utils.pred.pred_eq_len(6),
-                    utils.pred.pred_contains_eq_count(*seven_pattern, count=2),
-                )
-            )] = '6'
-
-            known[utils.first_where(
-                entry.signals,
-                utils.pred.combine_preds(
-                    utils.pred.pred_eq_len(5),
-                    utils.pred.pred_contains_eq_count(*four_pattern, count=2),
-                )
-            )] = '2'
-
-            known[utils.first_where(
-                entry.signals,
-                utils.pred.combine_preds(
-                    utils.pred.pred_eq_len(5),
-                    utils.pred.pred_contains_eq_count(*four_pattern, count=3),
-                    utils.pred.pred_contains_eq_count(*seven_pattern, count=3),
-                )
-            )] = '3'
-
-            known[utils.first_where(
-                entry.signals,
-                utils.pred.combine_preds(
-                    utils.pred.pred_eq_len(5),
-                    utils.pred.pred_contains_eq_count(*four_pattern, count=3),
-                    utils.pred.pred_contains_eq_count(*seven_pattern, count=2),
-                )
-            )] = '5'
-
-            print(known)
             total += int(''.join(map(known.__getitem__, entry.digits)))
 
         self.print_answer(total)

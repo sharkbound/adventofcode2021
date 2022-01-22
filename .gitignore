@@ -133,3 +133,4 @@ dmypy.json
 
 # advent of code secrets files
 /secrets/
+/test.ipynb

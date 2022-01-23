@@ -32,5 +32,4 @@ class Day9Part1(Day):
 
     def solve(self):
         data = self.parse_input()
-        Y_SIZE, X_SIZE = data.shape
         self.print_answer(sum(val + 1 for (y, x), val in np.ndenumerate(data) if self.is_low_point(data, y, x)))

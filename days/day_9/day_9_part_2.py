@@ -1,3 +1,5 @@
+from collections import deque
+
 from day import Day
 import re
 import numpy as np
@@ -23,6 +25,9 @@ class Day9Part2(Day):
             return data[y, x]
         return None
 
+    def is_valid_expansion_point(self, data, y, x):
+        return (v := self.index_or_none(data, y, x)) is not None and v != 9
+
     def is_low_point(self, data, y, x):
         val_at_yx = data[y, x]
         for offy, offx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
@@ -30,7 +35,23 @@ class Day9Part2(Day):
                 return False
         return True
 
+    def expand_low_point(self, data, y, x):
+        indexes_left = deque([(y, x)])
+        seen = set()
+        while indexes_left:
+            y, x = indexes_left.pop()
+
+            if (y, x) in seen:
+                continue
+
+            for offy, offx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                if (pos := (y + offy, x + offx)) not in seen and self.is_valid_expansion_point(data, *pos):
+                    indexes_left.appendleft(pos)
+
+            seen.add((y, x))
+        return len(seen)
+
     def solve(self):
         data = self.parse_input()
-        Y_SIZE, X_SIZE = data.shape
-        self.print_answer(sum(val + 1 for (y, x), val in np.ndenumerate(data) if self.is_low_point(data, y, x)))
+        basin_sizes = sorted([self.expand_low_point(data, y, x) for (y, x), val in np.ndenumerate(data) if self.is_low_point(data, y, x)])
+        self.print_answer(basin_sizes[-3] * basin_sizes[-2] * basin_sizes[-1])

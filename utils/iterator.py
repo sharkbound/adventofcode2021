@@ -1,3 +1,4 @@
+import itertools
 import re
 import typing
 from typing import Callable, Any
@@ -8,7 +9,8 @@ __all__ = [
     'IterEndMarker',
     'iter_flatten',
     'get_all_ints',
-    'build_dict',
+    'build_mapping',
+    'build_mapping_from_iter',
     'first_where',
     'first_where_not',
     'reverse_mapping',
@@ -70,13 +72,24 @@ def get_all_ints(value, transform=iter):
             raise ValueError(f'cannot find ints from type: {type(value)}. value must be iterable!')
 
 
-def build_dict(*items, cls=dict):
+def build_mapping(*items, cls=dict):
     """
     builds a dict from pairs passed, each 2 values are interpreted as (key, value)
     """
     # check that it's an even length
     assert len(items) & 1 != 1, 'length of items must be even in build_dict(...)'
     return cls(zip(items[::2], items[1::2]))
+
+
+def build_mapping_from_iter(iterable, cls=dict, fillvalue=None):
+    """
+    builds a dict from pairs passed, each 2 values are interpreted as (key, value)
+    """
+    it = iter(iterable)
+    return cls(
+        (v1, v2)
+        for v1, v2 in itertools.zip_longest(it, it, fillvalue=fillvalue)
+    )
 
 
 def first_where(iterable, predicate=lambda x: True, default=None):

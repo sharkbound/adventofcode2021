@@ -14,9 +14,9 @@ class Day10Part2(Day):
     CLOSE_TO_OPEN = utils.reverse_mapping(OPEN_TO_CLOSE)
     SCORES = {
         ')': 1,
-        ']': 57,
-        '}': 1197,
-        '>': 25137,
+        ']': 2,
+        '}': 3,
+        '>': 4,
     }
 
     def get_sample_input(self):
@@ -32,12 +32,11 @@ class Day10Part2(Day):
                 '<{([{{}}[<[[[<>{}]]]>[]]')
 
     def parse_input(self):
-        return self.input_sample_lines
+        return self.input_text_lines
 
     def solve(self):
         data = self.parse_input()
-        score = 0
-        valid_lines = []
+        scores = []
         buffer = []
         for line in data:
             buffer.clear()
@@ -45,8 +44,11 @@ class Day10Part2(Day):
                 if char in self.OPEN_TO_CLOSE:
                     buffer.append(char)
                 elif char in self.CLOSE_TO_OPEN and self.OPEN_TO_CLOSE[buffer.pop()] != char:
-                    score += self.SCORES[char]
                     break
             else:  # no break
-                valid_lines.append(line)
-        self.print_answer(valid_lines)
+                score = 0
+                for char in map(self.OPEN_TO_CLOSE.__getitem__, reversed(buffer)):
+                    score = score * 5 + self.SCORES[char]
+                scores.append(score)
+
+        self.print_answer(int(np.median(scores)))

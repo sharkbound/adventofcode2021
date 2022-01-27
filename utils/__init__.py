@@ -6,6 +6,7 @@ from .dotdict import DotDict
 from .input import ask_int
 
 from .iterator import *
+from .checks import *
 from . import predicates as pred
 
 from .file import (

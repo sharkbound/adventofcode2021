@@ -1,4 +1,5 @@
 import itertools
+import operator
 import re
 import typing
 from typing import Callable, Any
@@ -8,6 +9,7 @@ __all__ = [
     'iter_with_terminator',
     'IterEndMarker',
     'iter_flatten',
+    'flatten',
     'get_all_ints',
     'build_mapping',
     'build_mapping_from_iter',
@@ -17,6 +19,8 @@ __all__ = [
     'format_map',
     'last_where',
     'last_where_not',
+    'map_inner_elements',
+    'filter_not',
 ]
 
 
@@ -49,9 +53,9 @@ def iter_with_terminator(iterable, end_marker=ITER_END_MARKER, include_end_marke
         yield end_marker
 
 
-def iter_flatten(iterable, depth=None):
+def iter_flatten(iterable, depth=None, transform=lambda x: x):
     if depth is not None and depth < 0:
-        yield iterable
+        yield transform(iterable)
         return
 
     # strings and bytes are themselves iterable, so we dont want to include them
@@ -59,7 +63,15 @@ def iter_flatten(iterable, depth=None):
         for x in iterable:
             yield from iter_flatten(x, depth=((depth - 1) if depth is not None else None))
     else:
-        yield iterable
+        yield transform(iterable)
+
+
+def flatten(iterable, depth=None, transform_items=lambda x: x, result_transform=tuple):
+    return result_transform(iter_flatten(iterable, depth, transform_items))
+
+
+def map_inner_elements(iterable, transform_item, result_transform=None):
+    return (result_transform if result_transform is not None else type(iterable))(map(transform_item, iterable))
 
 
 def get_all_ints(value, transform=iter):
@@ -131,3 +143,7 @@ def format_map(items, format_: str | Callable, transform: Callable[[Any], Any] =
         formatter = format_
 
     return transform(map(formatter, items))
+
+
+def filter_not(iterable, predicate=lambda x: False):
+    yield from filter(lambda x: not predicate(x), iterable)

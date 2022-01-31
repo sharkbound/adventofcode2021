@@ -1,5 +1,4 @@
 import itertools
-import operator
 import re
 import typing
 from typing import Callable, Any

@@ -9,13 +9,6 @@ import utils
 from day import Day
 
 
-@dataclass
-class Node:
-    name: str
-    children: set = field(default_factory=set)
-    parents: set = field(default_factory=set)
-
-
 class Day12Part1(Day):
     day = 12
     part = 1

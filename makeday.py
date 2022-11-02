@@ -11,13 +11,13 @@ import utils
 class Day{day}Part{part}(Day):
     day = {day}
     part = {part}
-    
+
     def get_sample_input(self):
         return ''
-    
+
     def parse_input(self):
         return ''
-        
+
     def solve(self):
         data = self.parse_input()
 '''

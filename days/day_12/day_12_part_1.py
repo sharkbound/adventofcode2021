@@ -70,11 +70,12 @@ class Day12Part1(Day):
                 continue
 
             if info.path and info.path[-1].isupper():
-                # todo: fix infinite loop
-                remaining.append(info._replace(node=nodes[info.path[-1]], seen=info.seen | {info.node.name}, path=info.path + (info.node.name,)))
+                remaining.appendleft(info._replace(node=nodes[info.path[-1]], seen=info.seen | {info.node.name}, path=info.path + (info.node.name,)))
 
             if info.node.children:
                 for child in info.node.children:
+                    if not child.isupper() and child in info.seen:
+                        continue
                     remaining.appendleft(info._replace(node=nodes[child], seen=info.seen | {info.node.name}, path=info.path + (info.node.name,)))
 
     def solve(self):

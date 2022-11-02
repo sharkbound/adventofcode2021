@@ -41,47 +41,57 @@ class Day12Part1(Day):
         #         'kj-dc') # 19 paths
 
     def parse_input(self):
-        nodes = {}
-        for line in self.input_sample_lines:
+        nodes = NodeList()
+        for line in self.input_text_lines:
             parent, child = line.split('-')
-
-            if parent not in nodes:
-                nodes[parent] = Node(parent)
-
-            if child not in nodes:
-                nodes[child] = Node(child)
-
-            nodes[parent].name = parent
-            nodes[parent].children.add(child)
-
-            nodes[child].name = child
-            nodes[child].parents.add(parent)
+            nodes.add_edge(parent, child)
 
         return nodes
 
-    def iter_paths_to_end(self, src, nodes: defaultdict[str, Node]):
+    def iter_paths_to_end(self, src, nodes: 'NodeList'):
         Info = namedtuple('Info', 'node seen path')
+        unique_paths_to_end = set()
 
-        remaining = deque([Info(node=nodes[src], seen=frozenset(), path=tuple())])
+        remaining = deque([Info(node=src, seen=frozenset(), path=tuple())])
         while remaining:
             info = remaining.popleft()
-            if info.node.name == 'end':
-                yield info.path + (info.node.name,)
+            if info.node == 'end':
+                path = (*info.path, info.node)
+                if path not in unique_paths_to_end:
+                    yield path
+                    unique_paths_to_end.add(path)
                 continue
 
             if info.path and info.path[-1].isupper():
-                remaining.appendleft(info._replace(node=nodes[info.path[-1]], seen=info.seen | {info.node.name}, path=info.path + (info.node.name,)))
+                remaining.appendleft(info._replace(node=info.path[-1], seen=info.seen | {info.node}, path=info.path + (info.node,)))
 
-            if info.node.children:
-                for child in info.node.children:
-                    if not child.isupper() and child in info.seen:
-                        continue
-                    remaining.appendleft(info._replace(node=nodes[child], seen=info.seen | {info.node.name}, path=info.path + (info.node.name,)))
+            for current_edge_node in nodes.get_children(info.node) | nodes.get_parents(info.node):
+                if not current_edge_node.isupper() and current_edge_node in info.seen:
+                    continue
+                remaining.appendleft(info._replace(node=current_edge_node, seen=info.seen | {info.node}, path=info.path + (info.node,)))
 
     def solve(self):
         nodes = self.parse_input()
+        count = 0
         for path in self.iter_paths_to_end('start', nodes):
-            print(path)
+            count += 1
+        self.print_answer(count)
+
+
+class NodeList:
+    def __init__(self):
+        self.children = defaultdict(set)
+        self.parents = defaultdict(set)
+
+    def add_edge(self, a: str, b: str):
+        self.children[a].add(b)
+        self.parents[b].add(a)
+
+    def get_children(self, node: str):
+        return self.children[node]
+
+    def get_parents(self, node: str):
+        return self.parents[node]
 
 
 """
